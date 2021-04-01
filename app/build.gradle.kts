@@ -8,11 +8,21 @@
 
 plugins {
     // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
-    id("org.jetbrains.kotlin.jvm") version "1.4.20"
+    id("org.jetbrains.kotlin.jvm") version "1.4.21"
 
     // Apply the application plugin to add support for building a CLI application in Java.
     application
+
+    id("org.openjfx.javafxplugin") version "0.0.8"
 }
+
+javafx {
+    version = "11.0.2"
+    modules = mutableListOf("javafx.controls", "javafx.graphics")
+}
+
+val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
+compileKotlin.kotlinOptions.jvmTarget = JavaVersion.VERSION_11.toString()
 
 repositories {
     // Use JCenter for resolving dependencies.
@@ -24,19 +34,29 @@ dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
 
     // Use the Kotlin JDK 8 standard library.
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.4.21")
 
     // This dependency is used by the application.
     implementation("com.google.guava:guava:29.0-jre")
 
-    // Use the Kotlin test library.
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    implementation("no.tornado:tornadofx:1.7.19")
+    implementation(files("../libs/console-application-1.0.jar", "../libs/easy-comp-math-1.0.jar"))
+    implementation("org.reflections:reflections:0.9.12")
 
-    // Use the Kotlin JUnit integration.
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 }
 
 application {
     // Define the main class for the application.
     mainClass.set("ru.roggi.maths_lab3.AppKt")
 }
+
+tasks.jar {
+    archiveBaseName.set("maths_lab3-1.0")
+    manifest {
+        attributes["Implementation-Title"] = "maths_lab3"
+        attributes["Implementation-Version"] = "1.0"
+        attributes["Main-Class"] = "ru.roggi.maths_lab3.AppKt"
+    }
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+}
+
