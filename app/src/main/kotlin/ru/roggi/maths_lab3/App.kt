@@ -1,7 +1,10 @@
 package ru.roggi.maths_lab3
 
 import ru.roggi.comp.math.EasyCompMath
+import ru.roggi.comp.math.model.Equation
+import ru.roggi.comp.math.model.createEquationFrom
 import ru.roggi.comp.math.utils.RouterBuilder
+import ru.roggi.comp.math.view.InputScene
 import ru.roggi.comp.math.view.InputTwoScene
 import ru.roggi.console.application.view.scene.ChooseScene
 import ru.roggi.console.application.view.scene.Router
@@ -11,6 +14,10 @@ import tornadofx.launch
 
 const val CHOOSE_METHOD_ROUTE = "chooseRoute"
 const val INPUT_METHOD_BOUNDS_ROUTE = "inputMethodBounds"
+const val INPUT_ACCURACY_ROUTE = "inputAccuracy"
+const val INPUT_N_ROUTE = "inputN"
+const val INPUT_EQUATION_ROUTE = "inputEquation"
+
 const val LEFT_RECTANGLES_METHOD_ROUTE = "leftRectMethod"
 const val RIGHT_RECTANGLES_METHOD_ROUTE = "rightRectMethod"
 const val MIDDLE_RECTANGLES_METHOD_ROUTE = "middleRectMethod"
@@ -34,13 +41,34 @@ class RouterBuilderImpl: RouterBuilder {
                         }
                 )
                 register(INPUT_METHOD_BOUNDS_ROUTE, InputTwoScene(
-                        "Enter bounds for method between -50 and 50:",
+                        "Enter bounds between -50 and 50:",
                         String::toDouble,
                         String::toDouble,
                         {
                             left, right -> left in -50.0..50.0 &&
                                            right in -50.0..50.0 &&
                                            left < right
+                        }
+                ))
+                register(INPUT_ACCURACY_ROUTE, InputScene(
+                        "Enter accuracy between 0.001 and 1.000:",
+                        String::toDouble,
+                        {
+                            it in 0.001..1.000
+                        }
+                ))
+                register(INPUT_N_ROUTE, InputScene(
+                        "Enter N between 2 and 100:",
+                        String::toInt,
+                        {
+                            it in 2..100
+                        }
+                ))
+                register(INPUT_EQUATION_ROUTE, InputScene(
+                        "Enter equation:",
+                        ::createEquationFrom,
+                        {
+                            true
                         }
                 ))
                 register(LEFT_RECTANGLES_METHOD_ROUTE, MethodScene(LeftRectMethod()))
