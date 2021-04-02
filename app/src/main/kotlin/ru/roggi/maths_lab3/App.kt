@@ -1,7 +1,6 @@
 package ru.roggi.maths_lab3
 
 import ru.roggi.comp.math.EasyCompMath
-import ru.roggi.comp.math.model.Equation
 import ru.roggi.comp.math.model.createEquationFrom
 import ru.roggi.comp.math.utils.RouterBuilder
 import ru.roggi.comp.math.view.InputScene
@@ -14,7 +13,6 @@ import tornadofx.launch
 
 const val CHOOSE_METHOD_ROUTE = "chooseRoute"
 const val INPUT_METHOD_BOUNDS_ROUTE = "inputMethodBounds"
-const val INPUT_ACCURACY_ROUTE = "inputAccuracy"
 const val INPUT_N_ROUTE = "inputN"
 const val INPUT_EQUATION_ROUTE = "inputEquation"
 
@@ -50,13 +48,6 @@ class RouterBuilderImpl: RouterBuilder {
                                            left < right
                         }
                 ))
-                register(INPUT_ACCURACY_ROUTE, InputScene(
-                        "Enter accuracy between 0.001 and 1.000:",
-                        String::toDouble,
-                        {
-                            it in 0.001..1.000
-                        }
-                ))
                 register(INPUT_N_ROUTE, InputScene(
                         "Enter N between 2 and 100:",
                         String::toInt,
@@ -71,11 +62,21 @@ class RouterBuilderImpl: RouterBuilder {
                             true
                         }
                 ))
-                register(LEFT_RECTANGLES_METHOD_ROUTE, MethodScene(LeftRectMethod()))
-                register(RIGHT_RECTANGLES_METHOD_ROUTE, MethodScene(RightRectMethod()))
-                register(MIDDLE_RECTANGLES_METHOD_ROUTE, MethodScene(MiddleRectMethod()))
-                register(TRAPEZES_METHOD_ROUTE, MethodScene(TrapezesMethod()))
-                register(SIMPSON_METHOD_ROUTE, MethodScene(SimpsonMethod()))
+                register(LEFT_RECTANGLES_METHOD_ROUTE, MethodScene {
+                    LeftRectMethod(it.equation, it.leftBound, it.rightBound, it.n)
+                })
+                register(RIGHT_RECTANGLES_METHOD_ROUTE, MethodScene {
+                    RightRectMethod(it.equation, it.leftBound, it.rightBound, it.n)
+                })
+                register(MIDDLE_RECTANGLES_METHOD_ROUTE, MethodScene {
+                    MiddleRectMethod(it.equation, it.leftBound, it.rightBound, it.n)
+                })
+                register(TRAPEZES_METHOD_ROUTE, MethodScene {
+                    TrapezesMethod(it.equation, it.leftBound, it.rightBound, it.n)
+                })
+                register(SIMPSON_METHOD_ROUTE, MethodScene {
+                    SimpsonMethod(it.equation, it.leftBound, it.rightBound, it.n)
+                })
             }
 }
 
