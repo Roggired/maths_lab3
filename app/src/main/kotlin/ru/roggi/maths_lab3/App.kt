@@ -29,7 +29,7 @@ class RouterBuilderImpl: RouterBuilder {
     override fun build(): Router =
             Router().apply {
                 register(CHOOSE_METHOD_ROUTE, ChooseScene(
-                        "Choose method:\nLeft rectangles - 1\nRight rectangles - 2\nMiddle rectangles - 3\nTrapezes - 4\nSimpson = 5",
+                        "Choose method:\nLeft rectangles - 1\nRight rectangles - 2\nMiddle rectangles - 3\nTrapezes - 4\nSimpson - 5",
                         "",
                         listOf("1", "2", "3", "4", "5")) {
                             when(it) {
