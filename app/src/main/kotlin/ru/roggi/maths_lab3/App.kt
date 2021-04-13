@@ -5,6 +5,7 @@ import ru.roggi.comp.math.model.createEquationFrom
 import ru.roggi.comp.math.utils.RouterBuilder
 import ru.roggi.comp.math.view.InputScene
 import ru.roggi.comp.math.view.InputTwoScene
+import ru.roggi.comp.math.view.YesNoScene
 import ru.roggi.console.application.view.scene.ChooseScene
 import ru.roggi.console.application.view.scene.Router
 import ru.roggi.maths_lab3.model.*
@@ -12,8 +13,10 @@ import ru.roggi.maths_lab3.view.MethodScene
 import tornadofx.launch
 
 const val CHOOSE_METHOD_ROUTE = "chooseRoute"
+
 const val INPUT_METHOD_BOUNDS_ROUTE = "inputMethodBounds"
 const val INPUT_N_ROUTE = "inputN"
+const val INPUT_ACCURACY_ROUTE = "inputAccuracy"
 const val INPUT_EQUATION_ROUTE = "inputEquation"
 
 const val LEFT_RECTANGLES_METHOD_ROUTE = "leftRectMethod"
@@ -53,6 +56,13 @@ class RouterBuilderImpl: RouterBuilder {
                         String::toInt,
                         {
                             it in 2..100
+                        }
+                ))
+                register(INPUT_ACCURACY_ROUTE, InputScene(
+                        "Enter accuracy between 0.001 and 1.000:",
+                        String::toDouble,
+                        {
+                            it in 0.001..1.000
                         }
                 ))
                 register(INPUT_EQUATION_ROUTE, InputScene(
